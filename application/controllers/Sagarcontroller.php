@@ -22,23 +22,39 @@ class Sagarcontroller extends CI_Controller
     {
 
         $data = [
-            "Contact" => $this->input->post('contactno'),
-            "Name" => $this->input->post('contactname'),
-            "Address" => $this->input->post('address')
+            "contactno" => $this->input->post('contactno'),
+            "contactname" => $this->input->post('contactname'),
+            "address" => $this->input->post('address')
         ];
         $this->sagarmodel->insertData($data);
-        redirect('sagarcontroller');
+        redirect('Sagarcontroller');
     }
 
 
     public function editForm($id)
     {
         $data = [
-            "Contact" => $this->input->post('contactno'),
-            "Name" => $this->input->post('contactname'),
-            "Address" => $this->input->post('address')
+            "contactno" => $this->input->post('contactno'),
+            "contactname" => $this->input->post('contactname'),
+            "address" => $this->input->post('address')
         ];
-        $this->sagarmodel->updateData($data, $id);
+        $this->load->view('editForm', $data);
+    }
+
+    public function update() {
+
+        $data = [
+            "contactno" => $this->input->post('contactno'),
+            "contactname" => $this->input->post('contactname'),
+            "address" => $this->input->post('address')
+        ];
+        $this->sagarmodel->updateData($data, $this -> input -> post('$id'));
+        redirect('Sagarcontroller');
+    }
+
+    public functiom delete($id){
+        $this -> sagarmodel -> deleteData($id);
+        redirect('Sagarcontroller','refresh');
     }
 }
 ?>

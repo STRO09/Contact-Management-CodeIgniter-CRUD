@@ -52,11 +52,11 @@
         ?>
 
         <tr>
-          <td> <?= $contact['Contact'] ?> </td>
-          <td> <?= $contact['Name'] ?> </td>
-          <td> <?= $contact['Address'] ?> </td>
-          <td> <a href="<?= site_url('Sagarcontroller/editForm'.$contact['id']) ?>">Edit</a>
-           <a href="<?= site_url('Sagarcontroller/deleteForm'.$contact['id']) ?>">Delete</a>
+          <td> <?= $contact['contactno'] ?> </td>
+          <td> <?= $contact['contactname'] ?> </td>
+          <td> <?= $contact['address'] ?> </td>
+          <td> <a href="<?= site_url('Sagarcontroller/editForm/'.$contact['id']) ?>">Edit</a>
+           <a href="<?= site_url('Sagarcontroller/delete/'.$contact['id']) ?>">Delete</a>
           </td>
 
         </tr>
