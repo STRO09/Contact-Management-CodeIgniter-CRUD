@@ -5,7 +5,12 @@ public function get_all () {
 return $this -> db -> get('contacts')-> result_array();
 }
 
-public function getData($id) {
+public function getByName($contactname) {
+return $this -> db -> get_where('contacts', ['contactname'=> $contactname]) -> row_array();
+}
+
+
+public function getById($id) {
 return $this -> db -> get_where('contacts', ['id'=> $id]) -> row_array();
 }
 

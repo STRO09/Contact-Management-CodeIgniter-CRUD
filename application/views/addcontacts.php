@@ -17,8 +17,8 @@
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Contacts List</a></li>
-              <li><a href="<?php echo site_url('Sagarcontroller/loadinsert')?>">Add a Contact</a></li>
+              <li ><a href="<?php echo site_url('Sagarcontroller')?>">Contacts List</a></li>
+              <li class="active"><a href="#">Add a Contact</a></li>
             </ul>
             <form class="navbar-form navbar-left" method="POST" role="search" action="<?php echo site_url('Sagarcontroller/getSingle')?>">
               <div class="form-group">
@@ -42,42 +42,25 @@
         </nav>
       </header>
       <main>
-        
         <div class="container m-5 p-5">
-          <legend> Contacts</legend>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>
-                  Phone Number
-                </th>
-                <th>
-                  Contact name
-                </th>
-                <th>
-                  Address
-                </th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
-              foreach($contacts as $contact) {
-              ?>
-              <tr>
-                <td> <?= $contact['contactno'] ?> </td>
-                <td> <?= $contact['contactname'] ?> </td>
-                <td> <?= $contact['address'] ?> </td>
-                <td>
-                  <a href="<?= site_url('Sagarcontroller/editForm/'.$contact['id']) ?>">Edit</a>
-                  <a href="<?= site_url('Sagarcontroller/delete/'.$contact['id']) ?>">Delete</a>
-                </td>
-              </tr>
-              <?php
-              }
-              ?>
-            </tbody>
-          </table>
+          <form action="<?= site_url('Sagarcontroller/insertForm') ?>" method="POST">
+            <legend> Add a new Contact</legend>
+            <div class="form-group">
+              <label for="">Contact Number</label><span class="text-danger"> *</span>
+              <input type="text" class="form-control" pattern="[0-9]{10}" id="" placeholder="Input field"  name="contactno"required>
+            </div>
+            <div class="form-group">
+              <label for="">Contact Name</label> <span class="text-danger"> *</span>
+              <input type="text" class="form-control" id="" placeholder="Input field" name="contactname" required>
+            </div>
+            <div class="form-group">
+              <label for="">Address</label> <span>  (Optional)</span>
+              <textarea name="address" id="inputAddress" class="form-control" rows="3"></textarea>
+            </div>
+            <button type="Submit" class="btn btn-primary">
+            Insert
+            </button>
+          </form>
         </div>
       </main>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>

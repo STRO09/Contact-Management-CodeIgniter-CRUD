@@ -17,7 +17,7 @@
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Contacts List</a></li>
+              <li class="active"><a href="<?php echo site_url('Sagarcontroller')?>">Contacts List</a></li>
               <li><a href="<?php echo site_url('Sagarcontroller/loadinsert')?>">Add a Contact</a></li>
             </ul>
             <form class="navbar-form navbar-left" method="POST" role="search" action="<?php echo site_url('Sagarcontroller/getSingle')?>">
@@ -44,40 +44,18 @@
       <main>
         
         <div class="container m-5 p-5">
-          <legend> Contacts</legend>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>
-                  Phone Number
-                </th>
-                <th>
-                  Contact name
-                </th>
-                <th>
-                  Address
-                </th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
-              foreach($contacts as $contact) {
-              ?>
-              <tr>
-                <td> <?= $contact['contactno'] ?> </td>
-                <td> <?= $contact['contactname'] ?> </td>
-                <td> <?= $contact['address'] ?> </td>
-                <td>
-                  <a href="<?= site_url('Sagarcontroller/editForm/'.$contact['id']) ?>">Edit</a>
-                  <a href="<?= site_url('Sagarcontroller/delete/'.$contact['id']) ?>">Delete</a>
-                </td>
-              </tr>
-              <?php
-              }
-              ?>
-            </tbody>
-          </table>
+          <h2> <?php echo isset($contact) ?  "<p>Found Your Contact ! : </p> " :  " <p> No Contacts Found....  </p>" ?></h2>
+          <?php
+          echo  isset($contact) ?
+          "
+          <div class='container m-5 p-5 text-center bg-primary'>
+            Contact Number: " . $contact['contactno'] .  " <br>
+            Contact name: ".  $contact['contactname'] . " <br>
+            Contact Address: " . $contact['address']  . " <br>
+          </div>
+          " :
+          ""
+          ?>
         </div>
       </main>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>

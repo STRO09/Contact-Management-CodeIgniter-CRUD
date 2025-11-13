@@ -15,18 +15,18 @@
 		<body>
 			<form action="<?=site_url('Sagarcontroller/update') ?>" method="POST" >
 				<legend>Form title</legend>
-				<input type="hidden" class="form-control" id="" placeholder="Input field" value="<?=$data['id']?>">
+				<input type="hidden" class="form-control" id="" placeholder="Input field" name="id" value="<?=$data['id']?>">
 				<div class="form-group">
 					<label for="">Contact Number: </label>
-					<input type="number" class="form-control" id="" placeholder="Input field" value="<?=$data['contactno']?>">
+					<input type="number" class="form-control" id="" placeholder="Input field" name="contactno" value="<?=$data['contactno']?>">
 				</div>
 				<div class="form-group">
 					<label for="">Contact Name: </label>
-					<input type="text" class="form-control" id="" placeholder="Input field" value="<?=$data['contactname']?>">
+					<input type="text" class="form-control" id="" name="contactname" placeholder="Input field" value="<?=$data['contactname']?>">
 				</div>
 				<div class="form-group">
 					<label for="">Address (Optional): </label>
-					<input type="text" class="form-control" id="" placeholder="Input field" value="<?=$data['address']?>">
+					<input type="text" class="form-control" id="" placeholder="Input field" name="address" value="<?=$data['address']?>">
 				</div>
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</form>

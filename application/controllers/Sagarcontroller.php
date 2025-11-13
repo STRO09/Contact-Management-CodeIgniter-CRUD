@@ -33,12 +33,8 @@ class Sagarcontroller extends CI_Controller
 
     public function editForm($id)
     {
-        $data = [
-            "contactno" => $this->input->post('contactno'),
-            "contactname" => $this->input->post('contactname'),
-            "address" => $this->input->post('address')
-        ];
-        $this->load->view('editForm', $data);
+        $data = $this -> sagarmodel -> getById($id);
+        $this->load->view('editForm',['data'=> $data]);
     }
 
     public function update() {
@@ -48,13 +44,28 @@ class Sagarcontroller extends CI_Controller
             "contactname" => $this->input->post('contactname'),
             "address" => $this->input->post('address')
         ];
-        $this->sagarmodel->updateData($data, $this -> input -> post('$id'));
+        $id =  $this -> input -> post('id');
+        $this->sagarmodel->updateData($data, $id);
         redirect('Sagarcontroller');
     }
 
-    public functiom delete($id){
+
+    public function loadinsert() {
+        $this -> load -> view('addcontacts');
+    }
+
+    public function delete($id){
         $this -> sagarmodel -> deleteData($id);
         redirect('Sagarcontroller','refresh');
     }
+
+
+    public function getSingle() {
+        $contactname  = $this -> input -> post('contactname');
+        $contact = $this -> sagarmodel -> getByName($contactname);
+
+        $this -> load -> view('SingleView', ['contact'=> $contact]);
+    }
+
 }
 ?>
