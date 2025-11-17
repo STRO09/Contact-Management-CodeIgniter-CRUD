@@ -35,7 +35,7 @@
 				</div>
 			</nav>
 		</header>
-		<main style="margin-top:80px; margin-bottom: 80px;">
+		<main style="margin-top:160px; margin-bottom: 80px;">
 			<div class="container text-center">
 				<h2>Upload CSV File</h2>
 				<form method="post" enctype="multipart/form-data" action="<?= site_url('Sagarcontroller/previewCSV') ?>">

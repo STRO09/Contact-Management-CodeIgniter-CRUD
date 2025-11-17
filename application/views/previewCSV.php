@@ -75,7 +75,7 @@
         </form>
       </div>
     </main>
-    <footer class="navbar-inverse navbar-fixed-bottom">
+    <footer class="navbar-inverse">
       <p>&copy; <?php echo date('Y'); ?> Contact Management System - Sagar</p>
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
