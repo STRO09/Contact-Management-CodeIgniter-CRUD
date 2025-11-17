@@ -18,7 +18,23 @@ class Sagarcontroller extends CI_Controller
             'base_url'   => base_url('index.php/Sagarcontroller/index'),
             'total_rows' => $this->sagarmodel->count_contacts(),
             'per_page'   => 10,
-            'uri_segment' => 3
+            'uri_segment' => 3,
+
+            // Bootstrap styling
+            'full_tag_open'  => '<ul class="pagination">',
+            'full_tag_close' => '</ul>',
+            'first_tag_open' => '<li>',
+            'first_tag_close'=> '</li>',
+            'last_tag_open'  => '<li>',
+            'last_tag_close' => '</li>',
+            'next_tag_open'  => '<li>',
+            'next_tag_close' => '</li>',
+            'prev_tag_open'  => '<li>',
+            'prev_tag_close' => '</li>',
+            'cur_tag_open'   => '<li class="active"><a href="#">',
+            'cur_tag_close'  => '</a></li>',
+            'num_tag_open'   => '<li>',
+            'num_tag_close'  => '</li>',
         ]);
 
          // Fetch limited records

@@ -72,7 +72,7 @@
               <td> <?= $contact['contactname'] ?> </td>
               <td> <?= $contact['address'] ?> </td>
               <td>
-                <a data-toggle="modal" href='#modal-id'   data-id="<?= $contact['id'] ?>"
+                <a data-toggle="modal" href='#modal-id' data-id="<?= $contact['id'] ?>"
                   data-contactno="<?= $contact['contactno'] ?>"
                   data-contactname="<?= $contact['contactname'] ?>"
                 data-address="<?= $contact['address'] ?>"  class="btn btn-xs btn-warning editBtn">Edit</a>
