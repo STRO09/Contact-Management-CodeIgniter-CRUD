@@ -83,6 +83,7 @@ class Sagarcontroller extends CI_Controller
         ];
         $id =  $this -> input -> post('id');
         $this->sagarmodel->updateData($data, $id);
+        $this->session->set_flashdata('success', 'Contact updated successfully.');
         redirect('Sagarcontroller');
     }
 
@@ -127,18 +128,7 @@ class Sagarcontroller extends CI_Controller
 
             $this->load->view('previewCSV', ['contacts' => $data]);
         }
-    }
-
-    // public function insertCSV() {
-    //     $contacts = json_decode( $this->input->post('contacts')); // comes from hidden form field
-
-    //     if (!empty($contacts)) {
-    //         foreach ($contacts as $contact) {
-    //             $this->sagarmodel->insertData($contact);
-    //         }
-    //     }
-    //     redirect('Sagarcontroller');
-    // }
+}
 
 }
 ?>
