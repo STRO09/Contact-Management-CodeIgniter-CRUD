@@ -5,6 +5,12 @@ public function get_all () {
 return $this -> db -> get('contacts')-> result_array();
 }
 
+public function get_limited_contacts($limit, $offset)
+{
+    return $this->db->get('contacts', $limit, $offset)->result_array();
+}
+
+
 public function getByName($contactname) {
 return $this -> db -> get_where('contacts', ['contactname'=> $contactname]) -> row_array();
 }
@@ -25,6 +31,15 @@ return $this -> db -> delete('contacts', ['id'=> $id]);
 
 public  function updateData($data, $id) {
 return $this -> db -> where('id', $id)-> update('contacts', $data);
+}
+
+public function count_contacts()
+{
+    return $this->db->count_all('contacts');
+}
+
+public function insertMultiple($data) {
+	$this -> db -> insert_batch('contacts', $data);
 }
 }
 ?>

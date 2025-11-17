@@ -4,70 +4,7 @@
     <title>View Contacts - Sagar</title>
     <!-- Latest compiled and minified CSS & JS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <style>
-    body {
-    background-color: #f8f9fa;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    }
-    .navbar {
-    margin-bottom: 30px;
-    border-radius: 0;
-    }
-    .navbar-brand {
-    font-weight: bold;
-    font-size: 1.3em;
-    }
-    legend {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #333;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-    }
-    .btn-default {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    }
-    .btn-default:hover {
-    background-color: #0056b3;
-    color: #fff;
-    }
-    .form-container {
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    margin-top: 40px;
-    }
-    .form-group label {
-    font-weight: 500;
-    color: #555;
-    }
-    .form-control {
-    border-radius: 6px;
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
-    }
-    .btn-primary {
-    background-color: #007bff ;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1.1em;
-    border-radius: 6px;
-    transition: background-color 0.2s ease-in-out;
-    }
-    .btn-primary:hover {
-    background-color: #0056b3;
-    }
-    footer {
-    margin-top: 50px;
-    padding: 20px;
-    background: #222;
-    color: #aaa;
-    text-align: center;
-    }
-    </style>
+    <link rel="stylesheet" href="http://localhost/ciproject/assets/styles.css">
   </head>
   <body>
     <header id="header">
@@ -91,11 +28,7 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
+                  <li><a href="#">Upload CSV</a></li>
                 </ul>
               </li>
             </ul>
@@ -125,9 +58,10 @@
         </div>
       </div>
     </main>
-    <footer>
+            <footer class="navbar-inverse navbar-fixed-bottom">
       <p>&copy; <?php echo date('Y'); ?> Contact Management System - Sagar</p>
     </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </body>
 </html>

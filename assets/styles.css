@@ -1,0 +1,148 @@
+body {
+    background-color: #f8f9fa;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    bottom: 0;
+}
+
+
+.form-container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: #555;
+}
+
+.form-control {
+    border-radius: 6px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    border-radius: 6px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+footer {
+    margin-top: 50px;
+    margin-bottom: 0px;
+    padding: 20px;
+    background: #222;
+    color: #aaa;
+    text-align: center;
+}
+
+.navbar {
+    margin-bottom: 30px;
+    border-radius: 0;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+h2 {
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #444;
+}
+
+.contact-card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.contact-card:hover {
+    transform: translateY(-3px);
+}
+
+.contact-card p {
+    font-size: 1.1em;
+    margin: 10px 0;
+}
+
+.contact-card strong {
+    color: #007bff;
+}
+
+.alert-info, .alert-danger {
+    font-size: 1.1em;
+    border-radius: 6px;
+}
+
+.btn-default {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+}
+
+.btn-default:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
+
+footer {
+    margin-top: 50px;
+    padding: 20px;
+    background: #222;
+    color: #aaa;
+    text-align: center;
+}
+
+legend {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.table {
+    background: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.table th {
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.table a {
+    margin-right: 10px;
+    text-decoration: none;
+}
+
+.table a:hover {
+    text-decoration: underline;
+}
+
+.container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+}
