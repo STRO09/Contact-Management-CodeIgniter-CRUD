@@ -1,6 +1,8 @@
 <?php
+
 class Sagarcontroller extends CI_Controller
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -173,7 +175,39 @@ class Sagarcontroller extends CI_Controller
         } else {
             $this->session->set_flashdata("error", "No contacts selected.");
         }
+       
         redirect("Sagarcontroller");
+    }
+
+
+    public function guzzle() {
+                // Initialize Guzzle client
+        $client = new Client([
+            'base_uri' => 'http://10.10.15.140:5050/',
+            'timeout'  => 5.0, // optional timeout
+        ]);
+
+        try {
+            // Perform GET request
+            $response = $client->request('GET', '/');
+
+            // Get response body
+            $body = $response->getBody()->getContents();
+
+            // Pass data to view or echo directly
+            echo $body;
+
+        } catch (RequestException $e) {
+            // Handle errors gracefully
+            if ($e->hasResponse()) {
+                $errorBody = $e->getResponse()->getBody()->getContents();
+                log_message('error', 'API error: ' . $errorBody);
+                echo "API returned an error: " . $errorBody;
+            } else {
+                log_message('error', 'Request failed: ' . $e->getMessage());
+                echo "Request failed: " . $e->getMessage();
+            }
+        }
     }
 }
 ?>
