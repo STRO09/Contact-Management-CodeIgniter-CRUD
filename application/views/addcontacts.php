@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="http://localhost/ciproject/assets/styles.css">
   </head>
   <body>
-    <header id="header">
+    <header id="header" class="">
       <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container-fluid">
           <div class="navbar-header">
@@ -15,12 +15,12 @@
           </div>
           <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-              <li><a href="<?php echo site_url('Sagarcontroller')?>">Contacts List</a></li>
-              <li class="active"><a href="#">Add a Contact</a></li>
+              <li class="active"><a href="<?php echo site_url('Sagarcontroller')?>">Contacts List</a></li>
+              <li><a href="#">Add a Contact</a></li>
             </ul>
             <form class="navbar-form navbar-left" method="POST" role="search" action="<?php echo site_url('Sagarcontroller/getSingle')?>">
               <div class="form-group">
-                <input type="text" class="form-control" name="contactname" placeholder="Search By Name...">
+                <input type="text" class="form-control" name="contactname" placeholder="Search By Name....">
               </div>
               <button type="submit" class="btn btn-default">Search</button>
             </form>
@@ -28,7 +28,7 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">Upload CSV</a></li>
+                  <li><a href=" <?php echo site_url('SagarController/uploadCSV')?>">Upload CSV</a></li>
                 </ul>
               </li>
             </ul>
@@ -36,29 +36,36 @@
         </div>
       </nav>
     </header>
-    <main style="margin-top:80px;">
+    <main style="margin-top:30px;">
       <div class="container">
         <div class="form-container">
           <form action="<?= site_url('Sagarcontroller/insertForm') ?>" method="POST">
             <legend>Add a New Contact</legend>
             <div class="form-group">
               <label for="contactno">Contact Number <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="contactno" name="contactno" pattern="[0-9]{10}" placeholder="Enter 10-digit number" required>
+              <input type="text" class="form-control" id="contactno" name="contactno"
+              value="<?= set_value('contactno'); ?>" placeholder="Enter 10-digit number">
+              <?= form_error('contactno', '<span class="text-danger">', '</span>'); ?>
             </div>
             <div class="form-group">
               <label for="contactname">Contact Name <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="contactname" name="contactname" placeholder="Enter full name" required>
+              <input type="text" class="form-control" id="contactname" name="contactname"
+              value="<?= set_value('contactname'); ?>" placeholder="Enter full name">
+              <?= form_error('contactname', '<span class="text-danger">', '</span>'); ?>
             </div>
             <div class="form-group">
               <label for="inputAddress">Address <span class="text-muted">(Optional)</span></label>
-              <textarea name="address" id="inputAddress" class="form-control" rows="3" placeholder="Enter address"></textarea>
+              
+              <textarea name="address" id="inputAddress" class="form-control" rows="3"
+              placeholder="Enter address"><?= set_value('address'); ?></textarea>
+              <?= form_error('address', '<span class="text-danger">', '</span>'); ?>
             </div>
             <button type="submit" class="btn btn-primary">Insert</button>
           </form>
         </div>
       </div>
     </main>
-            <footer class="navbar-inverse">
+    <footer class="navbar-inverse">
       <p>&copy; <?php echo date('Y'); ?> Contact Management System - Sagar</p>
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

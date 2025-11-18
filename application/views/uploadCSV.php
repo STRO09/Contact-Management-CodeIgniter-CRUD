@@ -14,7 +14,7 @@
 					</div>
 					<div class="collapse navbar-collapse navbar-ex1-collapse">
 						<ul class="nav navbar-nav">
-							<li class="active"><a href="#">Contacts List</a></li>
+							<li class="active"><a href="<?php echo site_url('Sagarcontroller')?>">Contacts List</a></li>
 							<li><a href="<?php echo site_url('Sagarcontroller/loadinsert')?>">Add a Contact</a></li>
 						</ul>
 						<form class="navbar-form navbar-left" method="POST" role="search" action="<?php echo site_url('Sagarcontroller/getSingle')?>">

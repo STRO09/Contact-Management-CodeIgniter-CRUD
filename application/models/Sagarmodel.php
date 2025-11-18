@@ -42,12 +42,12 @@ public function insertMultiple($data) {
 	return $this -> db -> insert_batch('contacts', $data);
 }
 
-
 public function BulkDeleteData($ids) {
 
 	$this -> db -> where_in('id',$ids) ;
 	return $this -> db -> delete('contacts');
 
 }
+
 }
 ?>
