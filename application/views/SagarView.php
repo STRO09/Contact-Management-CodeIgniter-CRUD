@@ -5,22 +5,6 @@
     <!-- Latest compiled and minified CSS & JS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://localhost/ciproject/assets/styles.css">
-    <style>
-    /* Position toast at top center */
-    .toast-top {
-    display: none; /* hidden by default */
-    position: fixed;
-    top: 70px;
-    left: 50%;
-    transform: translateX(-50%);
-    min-width: 250px;
-    background: rgba(0,0,0,0.7);
-    color: #fff;
-    z-index: 9999;
-    padding: 10px;
-    border-radius: 4px;
-    }
-    </style>
   </head>
   <body>
     <header id="header" class="">
@@ -74,27 +58,33 @@
         </fieldset>
         <!-- table -->
         <div style="max-height:400px; overflow-y:auto;">
-          <table class="table table-striped table-hover" id="datatable">
-            <thead>
-              <tr>
-                <th>Phone Number</th>
-                <th>Contact Name</th>
-                <th>Address</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody> <?php
-              foreach($contacts as $contact) {
-              ?> <tr>
-                <td> <?= $contact['contactno'] ?> </td>
-                <td> <?= $contact['contactname'] ?> </td>
-                <td> <?= $contact['address'] ?> </td>
-                <td>
-                  <a data-toggle="modal" href='#modal-id' data-id="<?= $contact['id'] ?>" data-contactno="<?= $contact['contactno'] ?>" data-contactname="<?= $contact['contactname'] ?>" data-address="<?= $contact['address'] ?>" class="btn btn-xs btn-warning editBtn">Edit</a>
-                  <a href="<?= site_url('Sagarcontroller/delete/'.$contact['id']) ?>" onClick="return confirm('Are you sure you want to delete? ')" class="btn btn-xs btn-danger">Delete</a>
-                </td>
-              </tr> <?php } ?> </tbody>
-            </table>
+          <form method="post" action="<?= site_url('Sagarcontroller/bulk_delete') ?>" id="bulkForm">
+            <table class="table table-striped table-hover" id="datatable">
+              <thead>
+                <tr>
+                  <th class="text-center">Phone Number</th>
+                  <th class="text-center">Contact Name</th>
+                  <th class="text-center">Address</th>
+                  <th class="text-center">Actions</th>
+                  <th> <button type="button" id="deleteAllBtn" class="btn btn-danger btn-xs" style="display:none;">
+                    Delete All
+                  </button></th>
+                </tr>
+              </thead>
+              <tbody> <?php
+                foreach($contacts as $contact) {
+                ?> <tr>
+                  <td class="text-center"> <?= $contact['contactno'] ?> </td>
+                  <td class="text-center"> <?= $contact['contactname'] ?> </td>
+                  <td class="text-center"> <?= $contact['address'] ?> </td>
+                  <td class="text-center">
+                    <a data-toggle="modal" href='#modal-id' data-id="<?= $contact['id'] ?>" data-contactno="<?= $contact['contactno'] ?>" data-contactname="<?= $contact['contactname'] ?>" data-address="<?= $contact['address'] ?>" class="btn btn-xs btn-warning editBtn">Edit</a>
+                    <a href="<?= site_url('Sagarcontroller/delete/'.$contact['id']) ?>" onClick="return confirm('Are you sure you want to delete? ')" class="btn btn-xs btn-danger">Delete</a>
+                  </td>
+                  <td>   <input type="checkbox" name="ids[]" value="<?= $contact['id'] ?>" class="rowCheckbox"></td>
+                </tr> <?php } ?> </tbody>
+              </table>
+            </form>
           </div> <?= $links ?>
         </div>
         <!-- modal -->
@@ -136,12 +126,33 @@
       </footer>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <!-- for toaster -->
       <script>
       $(document).ready(function() {
       var toast = $('.toast-top');
       if(toast.length) {
       toast.fadeIn(400).delay(3000).fadeOut(400);
       }
+      });
+      </script>
+      <!-- delete all button appearance and bulk delete -->
+      <script>
+      
+      $(document).ready(function() {
+      // When any checkbox changes
+      $(".rowCheckbox").on("change", function() {
+      if ($(".rowCheckbox:checked").length > 0) {
+      $("#deleteAllBtn").show();
+      } else {
+      $("#deleteAllBtn").hide();
+      }
+      });
+      // Handle bulk delete
+      $("#deleteAllBtn").on("click", function() {
+      if (confirm("Are you sure you want to delete selected contacts?")) {
+      $("#bulkForm").submit();
+      }
+      });
       });
       </script>
       <script>

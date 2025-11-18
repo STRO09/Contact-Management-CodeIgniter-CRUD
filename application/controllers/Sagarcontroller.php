@@ -56,6 +56,7 @@ class Sagarcontroller extends CI_Controller
             "address" => $this->input->post('address')
         ];
         $this->sagarmodel->insertData($data);
+        $this->session->set_flashdata('success', 'Contact Added successfully.');
         redirect('Sagarcontroller');
     }
 
@@ -63,6 +64,7 @@ class Sagarcontroller extends CI_Controller
         $data = $this->input->post('contacts'); // already array of arrays
         if (!empty($data)) {
             $this->sagarmodel->insertMultiple($data);
+            $this->session->set_flashdata('success', 'All Contacts Added successfully.');
         }
         redirect('Sagarcontroller','refresh');
     }
@@ -94,6 +96,7 @@ class Sagarcontroller extends CI_Controller
 
     public function delete($id){
         $this -> sagarmodel -> deleteData($id);
+        $this->session->set_flashdata('success', 'Contact Deleted successfully.');
         redirect('Sagarcontroller','refresh');
     }
 
@@ -128,7 +131,18 @@ class Sagarcontroller extends CI_Controller
 
             $this->load->view('previewCSV', ['contacts' => $data]);
         }
-}
+    }
+
+    public function bulk_delete() {
+        $ids = $this->input->post('ids');
+        if (!empty($ids)) {
+            $this -> sagarmodel -> BulkDeleteData($ids);
+            $this->session->set_flashdata('success', 'Selected contacts deleted successfully.');
+        } else {
+            $this->session->set_flashdata('error', 'No contacts selected.');
+        }
+        redirect('Sagarcontroller');
+    }
 
 }
 ?>

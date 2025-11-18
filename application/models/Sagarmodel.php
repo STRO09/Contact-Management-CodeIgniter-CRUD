@@ -39,7 +39,15 @@ public function count_contacts()
 }
 
 public function insertMultiple($data) {
-	$this -> db -> insert_batch('contacts', $data);
+	return $this -> db -> insert_batch('contacts', $data);
+}
+
+
+public function BulkDeleteData($ids) {
+
+	$this -> db -> where_in('id',$ids) ;
+	return $this -> db -> delete('contacts');
+
 }
 }
 ?>
