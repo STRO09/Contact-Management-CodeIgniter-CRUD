@@ -57,7 +57,7 @@
           </div>
         </fieldset>
         <!-- table -->
-        <div style="max-height:400px; overflow-y:auto;">
+        <div style="max-height:400px; overflow-y:scroll;">
           <form method="post" action="<?= site_url('Sagarcontroller/bulk_delete') ?>" id="bulkForm">
             <table class="table table-striped table-hover" id="datatable">
               <thead>

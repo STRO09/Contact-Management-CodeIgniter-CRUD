@@ -120,13 +120,16 @@ legend {
 .table {
     background: #fff;
     border-radius: 5px;
-    overflow: hidden;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-collapse: collapse;
 }
 
 .table th {
     background-color: #007bff;
     color: #fff;
+        position: sticky;
+    top: 0;
+    z-index: 2;
 }
 
 .table td {
