@@ -93,7 +93,7 @@ class Sagarcontroller extends CI_Controller
     }
     public function insertMultiple()
     {
-        $data = $this->input->post("contacts"); // already array of arrays
+        $data = $this->input->post("contacts"); 
         if (!empty($data)) {
             $this->sagarmodel->insertMultiple($data);
             $this->session->set_flashdata(
