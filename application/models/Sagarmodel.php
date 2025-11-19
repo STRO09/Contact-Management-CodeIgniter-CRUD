@@ -49,5 +49,9 @@ public function BulkDeleteData($ids) {
 
 }
 
+public function deleteAll() {
+	return $this->db->empty_table('contacts');
+}
+
 }
 ?>

@@ -61,10 +61,14 @@
             ?>
           </tbody>
         </table>
+        <!-- Pagination links -->
+        <div class="text-center">
+          <?= $links ?>
+        </div>
         <form action="<?= site_url('Sagarcontroller/insertMultiple') ?>" method="POST">
           <h3 class="text-center">Confirm Insertion ? </h3>
           <div class="text-center">
-            <?php foreach ($contacts as $i => $contact): ?>
+            <?php foreach ($allContacts as $i => $contact): ?>
             <input type="hidden" name="contacts[<?= $i ?>][contactno]" value="<?= $contact['contactno'] ?>">
             <input type="hidden" name="contacts[<?= $i ?>][contactname]" value="<?= $contact['contactname'] ?>">
             <input type="hidden" name="contacts[<?= $i ?>][address]" value="<?= $contact['address'] ?>">

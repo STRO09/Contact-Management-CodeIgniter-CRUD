@@ -61,7 +61,8 @@
                 <th class="text-center">Contact Name</th>
                 <th class="text-center">Address</th>
                 <th class="text-center">Actions</th>
-                <th> <button type="button" id="deleteAllBtn" class="btn btn-danger btn-xs" style="display:none;"> Delete All </button></th>
+                <th> <button type="button" id="deleteAllBtn" class="btn btn-danger btn-xs"> Delete All </button>
+                <button type="button" id="deleteSelectedBtn" class="btn btn-danger btn-xs" style="display:none;"> Delete Selected </button></th>
               </tr>
             </thead>
             <tbody> <?php
@@ -80,11 +81,11 @@
           </form>
         </div> <?= $links ?>
       </div>
-      <div>
+      <!--       <div>
         <form action="" id="req" method="get" accept-charset="utf-8">
           <button type="submit"> Send Request</button>
         </form>
-      </div>
+      </div> -->
       <!-- modal -->
       <div class="modal fade" id="modal-id">
         <div class="modal-dialog">
@@ -121,21 +122,17 @@
     <footer class="navbar-inverse">
       <p>&copy; <?php echo date('Y'); ?> Contact Management System - Sagar</p>
     </footer>
-    <script type="module">
+    <!--   <script type="module">
     async function sendReq(e){
     const res= await fetch('http://10.10.15.140:5050/demo');
     const data =await res.json();
     console.log(data);
     }
-
-
     document.getElementById('req').addEventListener('submit', (e)=> {
-
-      e.preventDefault();
-      sendReq();
-     } );
-
-    </script>
+    e.preventDefault();
+    sendReq();
+    } );
+    </script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!-- for toaster -->
@@ -153,15 +150,20 @@
     // When any checkbox changes
     $(".rowCheckbox").on("change", function() {
     if($(".rowCheckbox:checked").length > 0) {
-    $("#deleteAllBtn").show();
+    $("#deleteSelectedBtn").show();
     } else {
-    $("#deleteAllBtn").hide();
+    $("#deleteSelectedBtn").hide();
     }
     });
     // Handle bulk delete
-    $("#deleteAllBtn").on("click", function() {
+    $("#deleteSelectedBtn").on("click", function() {
     if(confirm("Are you sure you want to delete selected contacts?")) {
     $("#bulkForm").submit();
+    }
+    });
+    $("#deleteAllBtn").on("click", function() {
+    if(confirm("Are you sure you want to delete All contacts?")) {
+       window.location.href = "<?= site_url('Sagarcontroller/deleteAll') ?>";
     }
     });
     });

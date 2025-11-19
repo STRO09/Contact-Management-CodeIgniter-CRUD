@@ -100,6 +100,7 @@ class Sagarcontroller extends CI_Controller
                 "success",
                 "All Contacts Added successfully."
             );
+            $this->session->unset_userdata('csv_data');
         }
         redirect("Sagarcontroller", "refresh");
     }
@@ -146,23 +147,83 @@ class Sagarcontroller extends CI_Controller
     {
         $this->load->view("uploadCSV");
     }
-    public function previewCSV()
-    {
-        if (isset($_FILES["csvfile"]["name"])) {
-            $file = fopen($_FILES["csvfile"]["tmp_name"], "r");
-            $data = [];
-            $header = fgetcsv($file);
-            while (($row = fgetcsv($file)) !== false) {
-                $data[] = [
-                    "contactno" => $row[0],
-                    "contactname" => $row[1],
-                    "address" => $row[2],
-                ];
-            }
-            fclose($file);
-            $this->load->view("previewCSV", ["contacts" => $data]);
-        }
+public function previewCSV($offset = 0)
+{
+    // If a file was uploaded, parse and store in session
+    if (isset($_FILES["csvfile"]["name"])) {
+        $file = fopen($_FILES["csvfile"]["tmp_name"], "r");
+        $data = [];
+
+        // Read first row
+    $firstRow = fgetcsv($file);
+
+    // Simple heuristic: check if first column is numeric (phone number)
+    $isHeader = !is_numeric($firstRow[0]);
+
+    if (!$isHeader) {
+        // Treat first row as data
+        $data[] = [
+            "contactno"   => $firstRow[0],
+            "contactname" => $firstRow[1],
+            "address"     => $firstRow[2],
+        ];
     }
+
+
+
+        while (($row = fgetcsv($file)) !== false) {
+            $data[] = [
+                "contactno" => $row[0],
+                "contactname" => $row[1],
+                "address" => $row[2],
+            ];
+        }
+        fclose($file);
+
+        // Save parsed data in session
+        $this->session->set_userdata('csv_data', $data);
+    }
+
+    // Retrieve from session if no new upload
+    $data = $this->session->userdata('csv_data');
+    if (empty($data)) {
+        // No data available, redirect back to upload page
+        redirect('Sagarcontroller/uploadCSV');
+    }
+
+    // Pagination setup
+    $per_page = 10;
+    $this->load->library('pagination');
+    $config = [
+        "base_url" => site_url("Sagarcontroller/previewCSV"),
+        "total_rows" => count($data),
+        "per_page" => $per_page,
+        "uri_segment" => 3,
+        "full_tag_open" => '<ul class="pagination">',
+        "full_tag_close" => "</ul>",
+        "cur_tag_open" => '<li class="active"><a href="#">',
+        "cur_tag_close" => "</a></li>",
+        "num_tag_open" => "<li>",
+        "num_tag_close" => "</li>",
+        "next_tag_open" => "<li>",
+        "next_tag_close" => "</li>",
+        "prev_tag_open" => "<li>",
+        "prev_tag_close" => "</li>",
+    ];
+    $this->pagination->initialize($config);
+
+    // Slice array for current page
+    $pagedData = array_slice($data, $offset, $per_page);
+
+    $links = $this->pagination->create_links();
+
+    $this->load->view("previewCSV", [
+        "contacts" => $pagedData,
+        "links" => $links,
+        "allContacts" => $data // keep full data for hidden inputs
+    ]);
+}
+
     public function bulk_delete()
     {
         $ids = $this->input->post("ids");
@@ -208,6 +269,17 @@ class Sagarcontroller extends CI_Controller
                 echo "Request failed: " . $e->getMessage();
             }
         }
+    }
+
+
+
+    public function deleteAll () {
+        $this -> sagarmodel -> deleteAll();
+          $this->session->set_flashdata(
+                "success",
+                "All contacts deleted successfully."
+            );
+        redirect('Sagarcontroller','refresh');
     }
 }
 ?>
