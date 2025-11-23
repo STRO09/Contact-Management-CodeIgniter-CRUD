@@ -93,36 +93,99 @@ class Sagarcontroller extends CI_Controller
     }
     public function insertMultiple()
     {
-        $data = $this->input->post("contacts"); 
-        if (!empty($data)) {
-            $this->sagarmodel->insertMultiple($data);
-            $this->session->set_flashdata(
-                "success",
-                "All Contacts Added successfully."
+        $rows = $this->input->post("contacts");
+        $this->load->library('form_validation');
+
+        $validRows = [];
+        $failed = [];
+
+        foreach ($rows as $i => $row) {
+
+            // Set row data for CI validation
+            $this->form_validation->set_data($row);
+
+            $this->form_validation->set_rules(
+                "contactno",
+                "Contact Number",
+                "required|exact_length[10]|numeric|is_unique[contacts.contactno]"
             );
-            $this->session->unset_userdata('csv_data');
+            $this->form_validation->set_rules(
+                "contactname",
+                "Contact Name",
+                "required"
+            );
+
+            if ($this->form_validation->run()) {
+                // this row is valid
+                $validRows[] = $row;
+            } else {
+                // this row failed — collect message
+                $failed[] = "Row " . ($i + 1) . " skipped: " . strip_tags(validation_errors());
+            }
         }
+
+        // Insert all valid rows
+        if (!empty($validRows)) {
+            $this->sagarmodel->insertMultiple($validRows);
+            $this->session->set_flashdata("success", count($validRows) . " contacts inserted.");
+        }
+
+        // Save skipped row messages for toast
+        if (!empty($failed)) {
+            $this->session->set_flashdata("csv_errors", $failed);
+        }
+
         redirect("Sagarcontroller", "refresh");
-    }
-    public function editForm($id)
-    {
-        $data = $this->sagarmodel->getById($id);
-        $this->load->view("editForm", ["data" => $data]);
     }
     public function update()
     {
-        $data = [
-            "contactno" => $this->input->post("contactno"),
-            "contactname" => $this->input->post("contactname"),
-            "address" => $this->input->post("address"),
-        ];
-        $id = $this->input->post("id");
-        $this->sagarmodel->updateData($data, $id);
-        $this->session->set_flashdata(
-            "success",
-            "Contact updated successfully."
+        // Define rules for each field
+        $this->form_validation->set_rules(
+            "contactno",
+            "Contact Number",
+            'required|exact_length[10]|numeric|is_unique[contacts.contactno.id.$id]',
+            [
+                "required" => "Contact number is required",
+                "exact_length" => "Contact number must be exactly 10 digits",
+                "numeric" => "Contact number must contain only digits",
+                "is_unique" => "This number already exists"
+            ]
         );
-        redirect("Sagarcontroller");
+        $this->form_validation->set_rules(
+            "contactname",
+            "Contact Name",
+            "required",
+            ["required" => "Contact name is required"]
+        );
+
+        if ($this->form_validation->run() == false) {
+            $this->session->set_flashdata("edit_errors", validation_errors());
+            $this->session->set_flashdata("edit_id", $this->input->post("id"));
+            $this->session->set_flashdata("edit_contactno", $this->input->post("contactno"));
+            $this->session->set_flashdata("edit_contactname", $this->input->post("contactname"));
+            $this->session->set_flashdata("edit_address", $this->input->post("address"));
+
+            redirect("Sagarcontroller");
+        } else {
+            $data = [
+                "contactno" => $this->input->post("contactno"),
+                "contactname" => $this->input->post("contactname"),
+                "address" => $this->input->post("address"),
+            ];
+            $id = $this->input->post("id");
+            if ($this->sagarmodel->updateData($data, $id)) {
+                $this->session->set_flashdata(
+                    "success",
+                    "Contact updated successfully."
+                );
+            } else {
+                $this->session->set_flashdata(
+                    "failure",
+                    "Contact Insertion Failed."
+                );
+            }
+            redirect("Sagarcontroller");
+        }
     }
     public function loadinsert()
     {
@@ -147,82 +210,82 @@ class Sagarcontroller extends CI_Controller
     {
         $this->load->view("uploadCSV");
     }
-public function previewCSV($offset = 0)
-{
-    // If a file was uploaded, parse and store in session
-    if (isset($_FILES["csvfile"]["name"])) {
-        $file = fopen($_FILES["csvfile"]["tmp_name"], "r");
-        $data = [];
+    public function previewCSV($offset = 0)
+    {
+        // If a file was uploaded, parse and store in session
+        if (isset($_FILES["csvfile"]["name"])) {
+            $file = fopen($_FILES["csvfile"]["tmp_name"], "r");
+            $data = [];
 
-        // Read first row
-    $firstRow = fgetcsv($file);
+            // Read first row
+            $firstRow = fgetcsv($file);
 
-    // Simple heuristic: check if first column is numeric (phone number)
-    $isHeader = !is_numeric($firstRow[0]);
+            // Simple heuristic: check if first column is numeric (phone number)
+            $isHeader = !is_numeric($firstRow[0]);
 
-    if (!$isHeader) {
-        // Treat first row as data
-        $data[] = [
-            "contactno"   => $firstRow[0],
-            "contactname" => $firstRow[1],
-            "address"     => $firstRow[2],
-        ];
-    }
+            if (!$isHeader) {
+                // Treat first row as data
+                $data[] = [
+                    "contactno" => $firstRow[0],
+                    "contactname" => $firstRow[1],
+                    "address" => $firstRow[2],
+                ];
+            }
 
 
 
-        while (($row = fgetcsv($file)) !== false) {
-            $data[] = [
-                "contactno" => $row[0],
-                "contactname" => $row[1],
-                "address" => $row[2],
-            ];
+            while (($row = fgetcsv($file)) !== false) {
+                $data[] = [
+                    "contactno" => $row[0],
+                    "contactname" => $row[1],
+                    "address" => $row[2],
+                ];
+            }
+            fclose($file);
+
+            // Save parsed data in session
+            $this->session->set_userdata('csv_data', $data);
         }
-        fclose($file);
 
-        // Save parsed data in session
-        $this->session->set_userdata('csv_data', $data);
+        // Retrieve from session if no new upload
+        $data = $this->session->userdata('csv_data');
+        if (empty($data)) {
+            // No data available, redirect back to upload page
+            redirect('Sagarcontroller/uploadCSV');
+        }
+
+        // Pagination setup
+        $per_page = 10;
+        $this->load->library('pagination');
+        $config = [
+            "base_url" => site_url("Sagarcontroller/previewCSV"),
+            "total_rows" => count($data),
+            "per_page" => $per_page,
+            "uri_segment" => 3,
+            "full_tag_open" => '<ul class="pagination">',
+            "full_tag_close" => "</ul>",
+            "cur_tag_open" => '<li class="active"><a href="#">',
+            "cur_tag_close" => "</a></li>",
+            "num_tag_open" => "<li>",
+            "num_tag_close" => "</li>",
+            "next_tag_open" => "<li>",
+            "next_tag_close" => "</li>",
+            "prev_tag_open" => "<li>",
+            "prev_tag_close" => "</li>",
+        ];
+        $this->pagination->initialize($config);
+
+        // Slice array for current page
+        $pagedData = array_slice($data, $offset, $per_page);
+
+        $links = $this->pagination->create_links();
+
+        $this->load->view("previewCSV", [
+            "contacts" => $pagedData,
+            "links" => $links,
+            "allContacts" => $data // keep full data for hidden inputs
+        ]);
     }
-
-    // Retrieve from session if no new upload
-    $data = $this->session->userdata('csv_data');
-    if (empty($data)) {
-        // No data available, redirect back to upload page
-        redirect('Sagarcontroller/uploadCSV');
-    }
-
-    // Pagination setup
-    $per_page = 10;
-    $this->load->library('pagination');
-    $config = [
-        "base_url" => site_url("Sagarcontroller/previewCSV"),
-        "total_rows" => count($data),
-        "per_page" => $per_page,
-        "uri_segment" => 3,
-        "full_tag_open" => '<ul class="pagination">',
-        "full_tag_close" => "</ul>",
-        "cur_tag_open" => '<li class="active"><a href="#">',
-        "cur_tag_close" => "</a></li>",
-        "num_tag_open" => "<li>",
-        "num_tag_close" => "</li>",
-        "next_tag_open" => "<li>",
-        "next_tag_close" => "</li>",
-        "prev_tag_open" => "<li>",
-        "prev_tag_close" => "</li>",
-    ];
-    $this->pagination->initialize($config);
-
-    // Slice array for current page
-    $pagedData = array_slice($data, $offset, $per_page);
-
-    $links = $this->pagination->create_links();
-
-    $this->load->view("previewCSV", [
-        "contacts" => $pagedData,
-        "links" => $links,
-        "allContacts" => $data // keep full data for hidden inputs
-    ]);
-}
 
     public function bulk_delete()
     {
@@ -236,16 +299,17 @@ public function previewCSV($offset = 0)
         } else {
             $this->session->set_flashdata("error", "No contacts selected.");
         }
-       
+
         redirect("Sagarcontroller");
     }
 
 
-    public function guzzle() {
-                // Initialize Guzzle client
+    public function guzzle()
+    {
+        // Initialize Guzzle client
         $client = new Client([
             'base_uri' => 'http://10.10.15.140:5050/',
-            'timeout'  => 5.0, // optional timeout
+            'timeout' => 5.0, // optional timeout
         ]);
 
         try {
@@ -273,13 +337,14 @@ public function previewCSV($offset = 0)
 
 
 
-    public function deleteAll () {
-        $this -> sagarmodel -> deleteAll();
-          $this->session->set_flashdata(
-                "success",
-                "All contacts deleted successfully."
-            );
-        redirect('Sagarcontroller','refresh');
+    public function deleteAll()
+    {
+        $this->sagarmodel->deleteAll();
+        $this->session->set_flashdata(
+            "success",
+            "All contacts deleted successfully."
+        );
+        redirect('Sagarcontroller', 'refresh');
     }
 }
 ?>
